@@ -1,0 +1,73 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "simple-hosting-capacity"
+dynamic = ["version"]
+description = ''
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Aadil Latif", email = "aadil.latif@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "opendssdirect.py",
+  "matplotlib",
+  "networkx",
+  "loguru",
+  "pandas",
+  "pyproj",
+  "bokeh",
+  "click",
+]
+
+[project.urls]
+Documentation = "https://github.com/Aadil Latif/-#readme"
+Issues = "https://github.com/Aadil Latif/-/issues"
+Source = "https://github.com/Aadil Latif/-"
+
+[tool.hatch.version]
+path = "src/simple_hosting_capacity/__about__.py"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/simple_hosting_capacity tests}"
+
+[tool.coverage.run]
+source_pkgs = ["simple_hosting_capacity", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/simple_hosting_capacity/__about__.py",
+]
+
+[tool.coverage.paths]
+_ = ["src/simple_hosting_capacity", "*/simple_hosting_capacity/src/simple_hosting_capacity"]
+tests = ["tests", "*/simple_hosting_capacity/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
+
+[project.scripts]
+shc = "simple_hosting_capacity.cli:cli"
