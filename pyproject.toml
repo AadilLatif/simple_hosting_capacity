@@ -25,14 +25,14 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = [
-  "opendssdirect.py",
-  "matplotlib",
-  "networkx",
-  "loguru",
-  "pandas",
-  "pyproj",
-  "bokeh",
-  "click",
+  "opendssdirect.py~=0.9.4",
+  "matplotlib~=3.10.1",
+  "networkx~=3.4.2",
+  "loguru~=0.7.3",
+  "pandas~=2.2.3",
+  "pyproj~=3.7.1",
+  "bokeh~=3.7.0",
+  "click~=8.1.8",
 ]
 
 [project.urls]
