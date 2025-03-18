@@ -112,19 +112,16 @@ class NetworkGraph:
 
     def plot(self):
         p = figure(
-            x_range=(-2000000, 6000000),
-            y_range=(-1000000, 7000000),
             x_axis_type="mercator",
             y_axis_type="mercator",
         )
-
         p.add_tile("CartoDB Positron", retina=True)
         nodes_data = []
         Xs = []
         Ys = []
         n_edges = len(self._dssGraph.edges())
         i_edge = 0
-        for u, v, data in self._dssGraph.edges(data=True):
+        for u, v, _ in self._dssGraph.edges(data=True):
             logger.info(f"Percentage complete: {i_edge / n_edges * 100}")
             try:
                 if u.startswith("node_sub/"):
@@ -263,7 +260,7 @@ class NetworkGraph:
         BusData = {}
 
         for ii, Bus in enumerate(Buses):
-            logger.info(f"Percentage complete: {ii/len(Buses)*100}")
+            logger.info(f"Percentage complete: {ii / len(Buses) * 100}")
             bus_data = hosting_data[Bus]
             self._dssInstance.Circuit.SetActiveBus(Bus)
             self.pvpen.append(bus_data["pv_penetration"])
