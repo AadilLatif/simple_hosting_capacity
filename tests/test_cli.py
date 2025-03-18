@@ -18,7 +18,6 @@ def runner():
 
 
 def test_run_hosting_capacity_help(runner):
-
     if not TEST_DUMP.exists():
         TEST_DUMP.mkdir()
 
