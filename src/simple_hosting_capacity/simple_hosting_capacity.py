@@ -7,13 +7,8 @@ import opendssdirect as dss
 
 
 def cmd(command):
-    reply = dss.utils.run_command(command)
-    #print(command)
-    if command.startswith("?"):
-        return reply
-    elif reply:      
-        raise Exception(f"OpenDSS error: {reply}")
-
+    dss.Text.Command(command)
+    return dss.Text.Result()
 
 class HostingCapacity:
     
@@ -85,8 +80,6 @@ class HostingCapacity:
             self.voltage_violation, self.thermal_violation = self.check_for_violations()     
             
             pv_kva += self.pv_size_increment_kw
-            # print(self.voltage_violation, self.thermal_violation, pv_kva, bus_name)
-            # print()
             i+=1
             
             if i == 10000:
@@ -122,11 +115,9 @@ class HostingCapacity:
             
             thermal_usage = max_current / rating_current
             if thermal_usage > 1:
-                #print(dss.CktElement.Name(), max_current, rating_current, current)
                 thermal_violation = True
                 break
             tr = dss.Transformers.Next()
-        
-        #print(f"maximum voltage: {max(v_pu)}, thermal limit: {thermal_violation}")
+
         return voltage_violation, thermal_violation
             

@@ -2,7 +2,7 @@ import pandas as pd
 import networkx as nx
 
 from bokeh.io import show, save
-from bokeh.models import Plot, MultiLine, Circle, HoverTool, StaticLayoutProvider, ColumnDataSource, LinearColorMapper
+from bokeh.models import Plot, MultiLine, Circle, HoverTool, StaticLayoutProvider, ColumnDataSource, LinearColorMapper, Scatter
 from bokeh.models import BoxZoomTool, ResetTool, WheelZoomTool, WheelPanTool, SaveTool
 from bokeh.plotting import from_networkx
 # from bokeh.transform import linear_cmap
@@ -22,11 +22,9 @@ output_file("tile.html")
 
 
 def cmd(command):
-    reply = dss.utils.run_command(command)
-    if command.startswith("?"):
-        return reply
-    elif reply:      
-        raise Exception(f"OpenDSS error: {reply}")
+    dss.Text.Command(command)
+    return dss.Text.Result()
+   
 
 
 phase_mapping = {
@@ -76,10 +74,14 @@ class NetworkGraph:
             self._dssGraph, 
             nx.spring_layout,
             )
+        # scatter(size=...)
+        # graph_renderer.node_renderer.glyph = Circle(
+        #     size=0, 
+        #     )
         
-        graph_renderer.node_renderer.glyph = Circle(
-            size=0, 
-            )
+        graph_renderer.node_renderer.glyph = Scatter(
+            size=0,
+        )
         
         graph_renderer.edge_renderer.glyph = MultiLine(
                 line_color="Color"
@@ -97,8 +99,7 @@ class NetworkGraph:
 		])
         
         plot = Plot(
-            plot_width=800, 
-            plot_height=800,
+            width=800, height=800, 
             tools = [BoxZoomTool(), ResetTool(), WheelPanTool(), WheelZoomTool(), hoverBus, SaveTool()]
         )
         
@@ -122,7 +123,7 @@ class NetworkGraph:
         n_edges = len(self._dssGraph.edges())
         i_edge = 0
         for u, v, data in self._dssGraph.edges(data=True):
-            print(i_edge / n_edges * 100)
+            logger.info(f"Percentage complete: {i_edge / n_edges * 100}")
             try:
                 if u.startswith('node_sub/'):
                     self._dssGraph.nodes[u]["X"] = self._dssGraph.nodes[v]["X"] 
@@ -206,13 +207,11 @@ class NetworkGraph:
             
             phases_from_sum = sum([int(x) for x in bus_names[1].split('.')[1:]])
             phases_to_sum = sum([int(x) for x in bus_names[0].split('.')[1:]])
-            
-            print(self._dssInstance.CktElement.Name())
-            
+
             if phases_from_sum != 0 and phases_to_sum != 0:
-            
-                phases_from = [phase_mapping[int(x)] for x in bus_names[0].split('.')[1:]]
-                phases_to = [phase_mapping[int(x)] for x in bus_names[1].split('.')[1:]]
+                
+                phases_from = [phase_mapping[int(x)] for x in bus_names[0].split('.')[1:] if x != '0']
+                phases_to = [phase_mapping[int(x)] for x in bus_names[1].split('.')[1:] if x != '0']
 
                 for phase_from, phase_to, phase_power in zip(phases_from, phases_to, S):
     
