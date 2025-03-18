@@ -263,7 +263,7 @@ class NetworkGraph:
         BusData = {}
 
         for ii, Bus in enumerate(Buses):
-            logger.info(f"Percentage complete: {ii/len(Buses)*100}")
+            logger.info(f"Percentage complete: {ii / len(Buses) * 100}")
             bus_data = hosting_data[Bus]
             self._dssInstance.Circuit.SetActiveBus(Bus)
             self.pvpen.append(bus_data["pv_penetration"])
