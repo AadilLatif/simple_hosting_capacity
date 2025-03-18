@@ -8,6 +8,10 @@ OPENDSS_PATH = BASE_TEST_PATH / "data" / "Master.dss"
 TEST_DUMP = BASE_TEST_PATH / "test_dump"
 
 def test_hosting_capacity():
+
+    if not TEST_DUMP.exists():
+        TEST_DUMP.mkdir()
+
     hosting_capacity = HostingCapacity(
         OPENDSS_PATH,
         pv_size_increment_kw_lv = 100,

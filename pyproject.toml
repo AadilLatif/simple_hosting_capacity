@@ -33,6 +33,7 @@ dependencies = [
   "pyproj~=3.7.1",
   "bokeh~=3.7.0",
   "click~=8.1.8",
+  "pytest"
 ]
 
 [project.urls]

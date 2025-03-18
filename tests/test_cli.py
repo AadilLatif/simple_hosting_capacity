@@ -18,6 +18,10 @@ def runner():
 
 
 def test_run_hosting_capacity_help(runner):
+
+    if not TEST_DUMP.exists():
+        TEST_DUMP.mkdir()
+
     result = runner.invoke(run_hosting_capacity, ["--help"])
     assert result.exit_code == 0
     assert "Usage:" in result.output
